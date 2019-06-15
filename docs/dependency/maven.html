@@ -1,0 +1,40 @@
+<!--
+  Maven Lastest Version Dependency
+-->
+
+<pre class="prettyprint">
+  &lt;!-- Lastest Version Maven Dependency --&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;<span id='groupId'>Loading...</span>&lt;/groupId&gt;
+    &lt;artifactId&gt;<span id='artifactId'>Loading...</span>&lt;/artifactId&gt;
+    &lt;version&gt;<span id='latest_release'>Loading...</span>&lt;/version&gt;
+  &lt;/dependency&gt;
+</pre>
+
+<!-- Add this script to update "latest_release" span to latest version -->
+<script type='text/javascript'>
+  const USER = 'gaulim';
+  const GROUP_ID = 'io.ssaragi'; // == 'com.github.' + USER;
+  const REPO = 'hum-util';
+
+  document.getElementById('groupId').innerHTML = GROUP_ID;
+  document.getElementById('artifactId').innerHTML = REPO;
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function() {
+    if ( (4 == xmlhttp.readyState) && (200 == xmlhttp.status) ) {
+      let myArr = JSON.parse(xmlhttp.responseText);
+      populateRelease(myArr);
+    }
+  }
+
+  xmlhttp.open("GET", "https://api.github.com/repos/" + USER + "/" + REPO + "/releases", true);
+  xmlhttp.send();
+
+  function populateRelease(arr) {
+    let release = (0 < arr.length) && ('tag_name' in arr[0]) ? arr[0].tag_name : 'unknown';
+    document.getElementById('latest_release').innerHTML = release;
+  }
+</script>
+

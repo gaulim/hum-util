@@ -1,0 +1,33 @@
+<!--
+  Gradle Lastest Version Dependency
+-->
+
+<pre class="prettyprint">
+  // Lastest Version Gradle Dependency
+  <span id='gradle_dependency'>Loading...</span>
+</pre>
+
+<!-- Add this script to update "gradle_dependency" span to latest version -->
+<script type='text/javascript'>
+  const USER = 'gaulim';
+  const GROUP_ID = 'io.ssaragi'; // == 'com.github.' + USER;
+  const REPO = 'hum-util';
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function() {
+    if ( (4 == xmlhttp.readyState) && (200 == xmlhttp.status) ) {
+      let myArr = JSON.parse(xmlhttp.responseText);
+      populateRelease(myArr);
+    }
+  }
+
+  xmlhttp.open("GET", "https://api.github.com/repos/" + USER + "/" + REPO + "/releases", true);
+  xmlhttp.send();
+
+  function populateRelease(arr) {
+    let release = (0 < arr.length) && ('tag_name' in arr[0]) ? arr[0].tag_name : 'unknown';
+    document.getElementById("gradle_dependency").innerHTML = "implementation '" + GROUP_ID + ":" + REPO + ":" + release + "'";
+  }
+</script>
+
